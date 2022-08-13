@@ -26,7 +26,7 @@
   {% for listing in listings %}
   <a href="{% url 'item' listing.id %}">
     <div class="row mb-4">
-        <div class="col-8 col-md-10">
+        <div class="col-8 col-md-9">
             <div class="listing_title">
                 <a href="{% url 'item' listing.id %}">{{listing.id}}.{{listing.title}}</a>
                 {% if listing not in watchlist %}
@@ -37,7 +37,7 @@
                 
             </div>
             <div class="listing_price">
-              <p>Seller- {{listing.seller}}</p>
+              <p>Seller- {{listing.seller}} <br> Category - {{listing.category}}</p>
                 <p>Price- {{listing.current_price}}</p>
             </div>
             <div class="listing_description">
@@ -45,12 +45,12 @@
             </div>
         </div>
         {% if listing.image_url %}
-        <div class="col-4 col-md-2">
+        <div class="col-4 col-md-3">
           <img
             src="{{listing.image_url}}"
             alt="{{listing.title}}"
             width="auto"
-            height="100px"
+            height="200px"
           />
         </div>
         {% endif %}
