@@ -1,0 +1,12 @@
+{% extends "auctions/layout.html" %}
+{% block body %}
+<h1>Add Item for Auction</h1>
+{% if message %}
+<p class="text-danger">Invalid Input</p>
+{% endif %}
+<form action="{% url 'add_item' %}" method="post">
+    {% csrf_token %}
+    {{form}}
+    <input type="submit" value="Add Item">
+</form>
+{% endblock %}

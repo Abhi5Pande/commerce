@@ -1,0 +1,41 @@
+{% extends "auctions/layout.html" %}
+{% block body %}
+<h1>Watchlist</h1>
+<div class="container">
+ 
+    {% for listing in watchlist %}
+   <a href="{% url 'item' listing.id %}">
+     <div class="row mb-4">
+         <div class="col-8 col-md-10">
+             <div class="listing_title">
+                 <a href="{% url 'item' listing.id %}">{{listing.id}}.{{listing.title}}</a>
+                 <div> <a href="{% url 'remove_watchlist' listing.id %}">Remove from Watchlist</a></div>
+                
+             </div>
+             <div class="listing_price">
+                 <p>Price- {{listing.current_price}}</p>
+             </div>
+             <div class="listing_description">
+                 <em>Description- {{listing.descritption}}</em>
+             </div>
+         </div>
+         {% if listing.image_url %}
+         <div class="col-4 col-md-2">
+           <img
+             src="{{listing.image_url}}"
+             alt="{{listing.title}}"
+             width="auto"
+             height="100px"
+           />
+         </div>
+         {% endif %}
+       </div>
+   </a>
+  
+  <hr>
+     {% empty %}
+     <b>No Listing</b>
+   {% endfor %}
+ </div>
+{% endblock %}
+

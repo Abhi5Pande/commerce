@@ -1,0 +1,67 @@
+{% extends "auctions/layout.html" %} {% block body %}
+<h1>Active listings</h1>
+<!-- <table>
+    <tr>
+        <th> ID </th>
+        <th> Title </th>
+        <th> Seller </th>
+        <th>Current Price</th>
+    </tr>
+    {% for listing in listings %}
+    <tr>
+        <td>{{listing.id}}</td>
+        <td>{{listing.title}}</td>
+        <td>{{listing.seller}}</td>
+        <td>{{listing.current_price}}</td>
+        {% if listing.description %}
+        <td>{{ listing.description }}</td>
+        {% endif %}
+    </tr>
+    {% endfor %}
+</table> -->
+
+<div class="container">
+
+  
+  {% for listing in listings %}
+  <a href="{% url 'item' listing.id %}">
+    <div class="row mb-4">
+        <div class="col-8 col-md-10">
+            <div class="listing_title">
+                <a href="{% url 'item' listing.id %}">{{listing.id}}.{{listing.title}}</a>
+                {% if listing not in watchlist %}
+                <div> <a href="{% url 'watchlist' listing.id %}">Add to Watchlist</a></div>
+                {% else %}
+                <div> <a href="{% url 'remove_watchlist' listing.id %}">Remove from Watchlist</a></div>
+                {% endif %}
+                
+            </div>
+            <div class="listing_price">
+              <p>Seller- {{listing.seller}}</p>
+                <p>Price- {{listing.current_price}}</p>
+            </div>
+            <div class="listing_description">
+                <em>Description- {{listing.descritption}}</em>
+            </div>
+        </div>
+        {% if listing.image_url %}
+        <div class="col-4 col-md-2">
+          <img
+            src="{{listing.image_url}}"
+            alt="{{listing.title}}"
+            width="auto"
+            height="100px"
+          />
+        </div>
+        {% endif %}
+      </div>
+  </a>
+  
+
+<hr>
+    {% empty %}
+    <b>No Listing</b>
+  {% endfor %}
+</div>
+
+{% endblock %}
