@@ -1,5 +1,6 @@
 from django.contrib import admin
-from .models import Listing, Watchlist
+from .models import Listing, Watchlist,Bid
 # Register your models here.
 admin.site.register(Listing)
 admin.site.register(Watchlist)
+admin.site.register(Bid)

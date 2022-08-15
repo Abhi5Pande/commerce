@@ -8,19 +8,45 @@
     <div class="col-12 col-md-8 text-center">
         <div>
             {% if item.descritption %}
-            <em>{{item.descritption}}</em>
+            descritption- <em>{{item.descritption}}</em>
             {% endif %}
         </div>
-        <div> Current Bid- 
-            {% if not item.closed %}
-                {{item.current_price}}
-            {% else %}
-                Closed
-            {% endif %}
+        {% if not item.closed %}
+        <div> Base Bid- 
+            
+                ${{item.current_price}}
+            
         </div>
+        {% if not msg %}
         <div class="placebid">
-         
+            <b> Highest bid - </b> ${{bid.bid}}
+            <br>
+            <b>Highest bidder - </b> {{bid.user}}
+        {% else %}
+            <b>{{msg}}</b>
+        {% endif %}
+         <form action="{% url 'addBid' item.id %}" method="post">
+            {% csrf_token %}
+            <label for="bid_price">Place a Bid</label>
+            <input type="number" name="bid_price">
+            <input type="submit" value="bid">
+         </form>
         </div>
+        {% else %}
+
+                <h3>Closed</h3>
+                
+                {% if bid %}
+                <p class="text-success">
+                Winner - {{bid.user}}
+                <br>
+                Price- {{bid.bid}}
+                </p>
+                
+                {% else %}
+                <h3 class="text-danger">Not Sold</h3>
+                {% endif %}
+        {% endif %}
     </div>
 </div>
 {% endblock %}

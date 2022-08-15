@@ -5,7 +5,7 @@ from django.http import HttpResponse, HttpResponseRedirect
 from django.shortcuts import render
 from django.urls import reverse
 
-from .models import User,Listing,Watchlist
+from .models import User,Listing,Watchlist,Bid
 from django import forms
 
 class NewItemForm(forms.Form):
@@ -112,9 +112,16 @@ def show_category(request,category):
 
 def item(request,p_id):
     item = Listing.objects.get(pk = p_id)
+    bid = Bid.objects.filter(item = item)
+    if bid:
+        return render(request,"auctions/item.html",{
+            "item":item,
+            "bid":bid.order_by('-bid')[0]
+        })
     return render(request,"auctions/item.html",{
-        "item":item,
-    })
+            "item":item,
+            "msg":"No bids yet"
+        })
 
 def view_watchlist(request):
      watchlist_items = Watchlist.objects.get(user=request.user)
@@ -165,4 +172,22 @@ def add_item(request):
     
     return render(request, "auctions/addItem.html",{
         "form":NewItemForm()
+    })
+
+def addBid(request,p_id):
+    if request.method == "POST":
+        bid_price = request.POST['bid_price']
+        item = Listing.objects.get(pk=p_id)
+        if request.user == item.seller:
+            return render(request, "auctions/item.html",{
+                "item":item,
+                "msg":"Seller cannot place a bid"
+            })
+        bid_item = Bid(item=item, user = request.user , bid = bid_price)
+        bid_item.save()
+        bid = Bid.objects.filter(item = item)
+    return render(request,"auctions/item.html",{
+        "item":item,
+        "msg":"Bid Placed",
+        "bid":bid.order_by('-bid')[0]
     })
