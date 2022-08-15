@@ -75,6 +75,8 @@ def register(request):
         try:
             user = User.objects.create_user(username, email, password)
             user.save()
+            watchlist = Watchlist(user=user)
+            watchlist.save()
         except IntegrityError:
             return render(request, "auctions/register.html", {
                 "message": "Username already taken."
@@ -89,8 +91,24 @@ def listing(request):
     watchlist_items = Watchlist.objects.get(user=request.user)
     return render(request,"auctions/listing.html",{
         "listings":l,
-        "watchlist":watchlist_items.auctions.all()
+        "watchlist":watchlist_items.auctions.all(),
+        "user":request.user
     })
+
+def close_item(request,p_id):
+    item = Listing.objects.get(pk=p_id)
+    item.closed = True
+    item.save()
+    return HttpResponseRedirect(reverse('listing'))
+    
+
+def show_category(request,category):
+    items = Listing.objects.filter(category=category)
+    return render(request,"auctions/listing.html",{
+        "listings":items,
+        "cat": category
+    })
+
 
 def item(request,p_id):
     item = Listing.objects.get(pk = p_id)

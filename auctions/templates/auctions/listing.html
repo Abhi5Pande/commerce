@@ -1,5 +1,10 @@
 {% extends "auctions/layout.html" %} {% block body %}
+{% if not cat %}
 <h1>Active listings</h1>
+{% else %}
+<h1>Active Listings - {{ cat }}</h1>
+{% endif %}
+
 <!-- <table>
     <tr>
         <th> ID </th>
@@ -24,6 +29,11 @@
 
   
   {% for listing in listings %}
+    {% if listing.closed %}
+    <div class="bg-success">
+    <h4>Closed</h4>
+    
+    {% endif %}
   <a href="{% url 'item' listing.id %}">
     <div class="row mb-4">
         <div class="col-8 col-md-9">
@@ -43,6 +53,14 @@
             <div class="listing_description">
                 <em>Description- {{listing.descritption}}</em>
             </div>
+            
+            {% if listing.seller == user and not listing.closed %}
+            <p>Hello</p>
+            <a href="{% url 'close' listing.id %}" class="btn btn-danger" >close</a>
+            {% endif %}
+            <!-- {% if listing.seller == user.username %} -->
+           
+            <!-- {% endif %} -->
         </div>
         {% if listing.image_url %}
         <div class="col-4 col-md-3">
@@ -55,8 +73,11 @@
         </div>
         {% endif %}
       </div>
+
   </a>
-  
+   {% if listing.closed %}
+   </div>
+   {% endif %}
 
 <hr>
     {% empty %}

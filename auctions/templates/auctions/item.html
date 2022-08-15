@@ -11,12 +11,15 @@
             <em>{{item.descritption}}</em>
             {% endif %}
         </div>
-        <div> Current Bid- {{item.current_price}}</div>
+        <div> Current Bid- 
+            {% if not item.closed %}
+                {{item.current_price}}
+            {% else %}
+                Closed
+            {% endif %}
+        </div>
         <div class="placebid">
-            <form action="" method="post">
-                {% csrf_token %}
-                {{form}}
-            </form>
+         
         </div>
     </div>
 </div>

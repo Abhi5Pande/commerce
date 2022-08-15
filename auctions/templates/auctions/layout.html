@@ -22,6 +22,7 @@
         </button>
         <div class="collapse navbar-collapse" id="navbarSupportedContent">
             <ul class="navbar-nav mr-auto">
+                {% if user.is_authenticated %}
                 <li class="nav-item">
                     <a class="nav-link" href="{% url 'listing' %}">Active Listings</a>
                 </li>
@@ -30,8 +31,16 @@
                         Categories
                     </a>
                     <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-                      <div class="dropdown-divider"></div>
-                      <a class="dropdown-item" href="{% url 'logout' %}">Log Out</a>
+                        <a class="dropdown-item" href="{% url 'category' 'MOT' %}">Motors</a>
+                        <a class="dropdown-item" href="{% url 'category' 'FAS' %}">Fashion</a>
+                        <a class="dropdown-item" href="{% url 'category' 'ELE' %}">Electronics</a>
+                        <a class="dropdown-item" href="{% url 'category' 'ART' %}">Art</a>
+                        <a class="dropdown-item" href="{% url 'category' 'HGA' %}">Garden</a>
+                        <a class="dropdown-item" href="{% url 'category' 'SPO' %}">Sports</a>
+                        <a class="dropdown-item" href="{% url 'category' 'TOY' %}">Toys</a>
+                        <a class="dropdown-item" href="{% url 'category' 'BUS' %}">Business</a>
+                        <a class="dropdown-item" href="{% url 'category' 'MUS' %}">Music</a>
+                      <!-- <a class="dropdown-item" href="{% url 'logout' %}">Log Out</a> -->
                     </div>
                   </li>
                 <li class="nav-item">
@@ -40,7 +49,7 @@
                 <li class="nav-item">
                     <a class="nav-link" href="{% url 'add_item' %}">Add Item</a>
                 </li>
-                {% if user.is_authenticated %}
+               
                 <li class="nav-item dropdown">
                     <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                         {{ user.username }}
